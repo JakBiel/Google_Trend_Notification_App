@@ -20,6 +20,7 @@ jobs:
         with:
           workload_identity_provider: '${{ secrets.GCP_PJ_NAMEID }}'
           service_account: '${{ secrets.WIF_SERVICE_ACCOUNT }}'
+          credentials: '${{ secrets.GCP_KEY_CREDENTIALS }}'
 
       - name: Deploy Cloud Functions
         uses:  google-github-actions/deploy-cloud-functions@v2 
