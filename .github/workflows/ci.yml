@@ -1,0 +1,38 @@
+name: Deploy to Google Cloud Functions
+
+on:
+  push:
+    branches: [ 'master' ]
+
+jobs:
+  deploy:
+    runs-on:  ubuntu-latest 
+    permissions:
+      contents:  read 
+      id-token:  write 
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v4
+
+        - name: Google Auth
+          id: auth
+          uses:  google-github-actions/auth@v2 
+          with:
+            workload_identity_provider: '${{ secrets.GCP_PJ_NAMEID }}'
+            service_account: '${{ secrets.WIF_SERVICE_ACCOUNT }}'
+
+        - name: Deploy Cloud Functions
+          uses:  google-github-actions/deploy-cloud-functions@v2 
+          with:
+            name: insert_data
+            description: test-description
+            region: us-central1
+            entry_point: insert_data
+            runtime: python38
+            env_vars_file: .github/env/env.yaml
+            event_trigger_type: providers/cloud.pubsub/eventTypes/topic.publish
+            event_trigger_resource: projects/${{ secrets.GCP_PJ_NAMEID }}/topics/trigger-github-actions-deploy-gf
+            
+        # Runs a single command using the runners shell
+        - name: Deployment has completed
+          run: echo Deployment has completed
