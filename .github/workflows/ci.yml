@@ -2,27 +2,36 @@ name: Deploy to Google Cloud Functions
 
 on:
   push:
-    branches: [ 'master' ]
+    branches: ['master']
 
 jobs:
   deploy:
-    runs-on:  ubuntu-latest 
+    runs-on: ubuntu-latest
     permissions:
-      contents:  read 
-      id-token:  write 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      contents: read
+      id-token: write
 
-      - name: Google Auth
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Google Cloud authentication
         id: auth
-        uses:  google-github-actions/auth@v2 
+        uses: google-github-actions/auth@v2
         with:
           workload_identity_provider: '${{ secrets.GCP_PJ_NAMEID }}'
           service_account: '${{ secrets.WIF_SERVICE_ACCOUNT }}'
 
-      - name: Deploy Cloud Functions
-        uses:  google-github-actions/deploy-cloud-functions@v2 
+      - name: Set up Google Cloud credentials file
+        run: |
+          echo "${{ secrets.GOOGLE_CREDENTIALS }}" > /tmp/google-credentials.json
+        shell: bash
+
+      - name: Configure environment variable
+        run: export GOOGLE_APPLICATION_CREDENTIALS="/tmp/google-credentials.json"
+
+      - name: Deploy to Google Cloud Functions
+        uses: google-github-actions/deploy-cloud-functions@v2
         with:
           name: insert_data
           description: test-description
@@ -31,7 +40,6 @@ jobs:
           runtime: python38
           event_trigger_type: providers/cloud.pubsub/eventTypes/topic.publish
           event_trigger_resource: projects/${{ secrets.GCP_PJ_NAMEID }}/topics/trigger-github-actions-deploy-gf
-          
-      # Runs a single command using the runners shell
-      - name: Deployment has completed
-        run: echo Deployment has completed
+
+      - name: Notify on completion
+        run: echo "Deployment has completed"
