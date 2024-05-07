@@ -26,8 +26,8 @@ jobs:
         with:
           name: insert_data
           description: test-description
-          region: us-central1
-          entry_point: insert_data
+          region: europe-central2
+          entry_point: main
           runtime: python38
           event_trigger_type: providers/cloud.pubsub/eventTypes/topic.publish
           event_trigger_resource: projects/${{ secrets.GCP_PJ_NAMEID }}/topics/trigger-github-actions-deploy-gf
