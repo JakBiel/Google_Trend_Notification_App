@@ -29,7 +29,8 @@ jobs:
           region: europe-central2
           entry_point: hello_world
           runtime: python38
-          trigger_http: true
+          event_trigger_type: providers/cloud.pubsub/eventTypes/topic.publish
+          event_trigger_resource: projects/${{ secrets.GCP_PJ_NAMEID }}/topics/trigger-github-actions-deploy-gf
           
       # Runs a single command using the runners shell
       - name: Deployment has completed
