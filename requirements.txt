@@ -1,0 +1,4 @@
+functions-framework==3.4.0
+google-generativeai==0.6.0
+pytrends==4.8.0
+slack-sdk==3.19.3
