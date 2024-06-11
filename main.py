@@ -60,6 +60,6 @@ def send_slack_notification(message):
 def main(request):
     trends = fetch_trending_searches()
     results = gemini_querying(trends)
-    send_slack_notification(f"This is generated, analyzed and modified by Gemini:\n\n Most popular trends in Google browser in last 24 hours: \n {results}")
+    send_slack_notification(f"WHAT IS IT? This is generated, analyzed and modified by Gemini:\n\n Most popular trends in Google browser in last 24 hours: \n {results}")
     return "Success", 200
 
