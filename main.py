@@ -29,7 +29,7 @@ def gemini_querying(trends):
     model = genai.GenerativeModel('gemini-1.5-flash')
 
     response = model.generate_content(f"""I attached below a list of trends. Please make each trend's name as written 
-                                    bold (Ctrl+B) in Slack, as the whole response message will go to Slack as Slack message. 
+                                    bold (but with single "*"!), as the whole response message will go to Slack as Slack message. 
                                     Please attach to a trend in each row a proper category. 
                                     Regarding categories, please define it short (max 3 words).
                                     Dont't add any additional explainations to the list. Also, don't forget
@@ -49,18 +49,25 @@ def send_slack_notification(message):
     try:
         response = client.chat_postMessage(
             channel=channel,
-            text=message
+            text="This is a fallback text with *bold* text",
+            blocks=[
+                {
+                    "type": "section",
+                    "text": {
+                        "type": "mrkdwn",
+                        "text": message
+                    }
+                }
+            ]
         )
         print("Message sent successfully")
     except SlackApiError as e:
         print(f"Failed to send message: {e.response['error']}")
 
-## deployment confirmation comment
-
 @functions_framework.http
 def main(request):
     trends = fetch_trending_searches()
     results = gemini_querying(trends)
-    send_slack_notification(f"WHAT IS IT? This is generated, analyzed and modified by Gemini:\n\n Most popular trends in Google browser in last 24 hours: \n {results}")
+    send_slack_notification(f"THIS is generated, analyzed and modified by Gemini:\n\n Most popular trends in Google browser in last 24 hours: \n {results}")
     return "Success", 200
 
