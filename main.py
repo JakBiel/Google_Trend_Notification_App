@@ -28,13 +28,12 @@ def gemini_querying(trends):
     # The Gemini 1.5 models are versatile and work with both text-only and multimodal prompts
     model = genai.GenerativeModel('gemini-1.5-flash')
 
-    response = model.generate_content(f"""The attached below list of trends is a table now. 
-                                    Please create from the list a table. Please attach to
-                                    it a new column with a name Category. 
-                                    In this new column, please define a short (max 3 words) 
-                                    category for each element from the table. Dont't add explainations
-                                    to the categories names below the response table. Also, don't forget
-                                    about showing the index of each element. {trends}""")
+    response = model.generate_content(f"""I attached below a list of trends. 
+                                    Please attach to a trend in each row a proper category. 
+                                    Regarding categories, please define it short (max 3 words).
+                                    Dont't add any additional explainations to the list. Also, don't forget
+                                    about showing the index of each element on the list. What's the last, please
+                                    add related emoji at the end of each trend. {trends}""")
     print(response.text)
 
     return response.text
