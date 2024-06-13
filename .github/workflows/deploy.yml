@@ -36,6 +36,8 @@ jobs:
           --allow-unauthenticated \
           --entry-point main \
           --region europe-central2
+          --memory 256MiB \
+          --timeout 30s
       env:
         GEMINI_TOKEN: ${{ secrets.GEMINI_TOKEN }}
         MY_SLACK_TOKEN: ${{ secrets.MY_SLACK_TOKEN }}
