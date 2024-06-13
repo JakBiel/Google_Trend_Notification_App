@@ -28,7 +28,7 @@ def gemini_querying(trends):
     # The Gemini 1.5 models are versatile and work with both text-only and multimodal prompts
     model = genai.GenerativeModel('gemini-1.5-flash')
 
-    response = model.generate_content(f"""I attached below a list of trends. 
+    response = model.generate_content(f"""I attached below a list of trends. Please make each trend name as written bold. 
                                     Please attach to a trend in each row a proper category. 
                                     Regarding categories, please define it short (max 3 words).
                                     Dont't add any additional explainations to the list. Also, don't forget
