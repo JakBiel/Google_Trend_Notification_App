@@ -29,13 +29,11 @@ def gemini_querying(trends):
     model = genai.GenerativeModel('gemini-1.5-flash')
 
     response = model.generate_content(f"""I attached below a list of trends. Please make each trend's name started and ended with "*" sign.
-                                    Please attach to a trend in each row a proper category. 
-                                    Regarding categories, please define it short (max 3 words).
+                                    Please attach to a trend in each row a proper category [define it short (max 3 words)]
                                     Dont't add any additional explainations to the list. Also, don't forget
                                     about showing the index of each element on the list. What's the last, please
-                                    add related emoji at the end of each trend's row - at the end of the row, not
-                                    right after the trend's name. And - Don't put <I can't attach a file, but I can modify your list as requested:>
-                                    at the beginning of your message - everything else you do is already enough. {trends}""")
+                                    add related emoji at the end of each trend's row (which means not
+                                    right after the trend's name.) {trends}""")
     print(response.text)
 
     return response.text
