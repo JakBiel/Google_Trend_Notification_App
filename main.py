@@ -29,7 +29,7 @@ def gemini_querying(trends):
     model = genai.GenerativeModel('gemini-1.5-flash')
 
     response = model.generate_content(f"""I attached below a list of trends. Please make each trend's name as written 
-                                    bold in Slack, as the response message will go to Slack. 
+                                    bold (Ctrl+B) in Slack, as the whole response message will go to Slack as Slack message. 
                                     Please attach to a trend in each row a proper category. 
                                     Regarding categories, please define it short (max 3 words).
                                     Dont't add any additional explainations to the list. Also, don't forget
