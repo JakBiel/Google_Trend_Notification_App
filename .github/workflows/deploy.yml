@@ -41,3 +41,16 @@ jobs:
       env:
         GEMINI_TOKEN: ${{ secrets.GEMINI_TOKEN }}
         MY_SLACK_TOKEN: ${{ secrets.MY_SLACK_TOKEN }}
+
+    - name: Update Cloud Scheduler job
+      run: |
+        gcloud scheduler jobs update http my-scheduled-job \
+          --schedule "*/2 * * * *" \
+          --uri "${{ secrets.FUNCTION_URI }}" \
+          --http-method GET \
+          --time-zone "Europe/Warsaw" \
+          --oidc-service-account-email "${{ secrets.SERVICE_ACCOUNT_EMAIL }}"
+      env:
+        GEMINI_TOKEN: ${{ secrets.GEMINI_TOKEN }}
+        MY_SLACK_TOKEN: ${{ secrets.MY_SLACK_TOKEN }}
+
