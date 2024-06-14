@@ -33,7 +33,12 @@ def gemini_querying(trends):
                                     Dont't add any additional explainations to the list. Also, don't forget
                                     about showing the index of each element on the list. What's the last, please
                                     add related emoji at the end of each trend's row (which means not
-                                    right after the trend's name.) {trends}""")
+                                    right after the trend's name.)
+                                    Here is an example of 3 first rows, how they should be formatted and look like (regarding their form, not the content):
+                                    1.  *Fort Lauderdale state of emergency*  -  News :rotating_light:
+                                    2.  *Boston Celtics*  -  Sports :basketball:
+                                    3.  *The Boys Season 4*  -  TV :male_superhero:
+                                    {trends}""")
     print(response.text)
 
     return response.text
