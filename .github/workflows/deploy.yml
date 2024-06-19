@@ -45,7 +45,7 @@ jobs:
     - name: Update Cloud Scheduler job
       run: |
         gcloud scheduler jobs update http daily_trends \
-          --schedule "30 8 * * *" \
+          --schedule "*/2 * * * *" \
           --uri "${{ secrets.FUNCTION_URI }}" \
           --http-method GET \
           --time-zone "Europe/Warsaw" \
