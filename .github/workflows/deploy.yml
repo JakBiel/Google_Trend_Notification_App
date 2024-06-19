@@ -54,4 +54,3 @@ jobs:
       env:
         GEMINI_TOKEN: ${{ secrets.GEMINI_TOKEN }}
         MY_SLACK_TOKEN: ${{ secrets.MY_SLACK_TOKEN }}
-
