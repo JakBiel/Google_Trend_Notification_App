@@ -46,7 +46,11 @@ jobs:
       id: get-url
       run: |
         FUNCTION_URL=$(gcloud functions describe gemini123 --region europe-central2 --format='value(httpsTrigger.url)')
+        echo "FUNCTION_URL=${FUNCTION_URL}"
         echo "FUNCTION_URL=${FUNCTION_URL}" >> $GITHUB_ENV
+
+    - name: Check Cloud Function URL
+      run: echo "Cloud Function URL is ${{ env.FUNCTION_URL }}"
 
     - name: Update Cloud Scheduler job
     # In fact, I originally had scheduled it as "30 8 * * *", but I temporarily reduced it to another, much lower frequency
