@@ -43,9 +43,10 @@ jobs:
         MY_SLACK_TOKEN: ${{ secrets.MY_SLACK_TOKEN }}
 
     - name: Update Cloud Scheduler job
+    # In fact, I originally had scheduled it as "30 8 * * *", but I temporarily disabled scheduling by setting a fake cron on 31st of February
       run: |
         gcloud scheduler jobs update http daily_trends \
-          --schedule "0 0 31 2 *" \  # In fact, I originally had scheduled it as "30 8 * * *", but I temporarily disabled scheduling by setting a fake cron on 31st of February
+          --schedule "0 0 31 2 *" \
           --uri "${{ secrets.FUNCTION_URI }}" \
           --http-method GET \
           --time-zone "Europe/Warsaw" \
