@@ -42,11 +42,10 @@ jobs:
         GEMINI_TOKEN: ${{ secrets.GEMINI_TOKEN }}
         MY_SLACK_TOKEN: ${{ secrets.MY_SLACK_TOKEN }}
 
-    - name: Get Cloud Function URL
+    - name: Get Cloud Function URL from logs
       id: get-url
       run: |
-        FUNCTION_URL=$(gcloud functions describe gemini123 --region europe-central2 --format='value(httpsTrigger.url)')
-        echo "FUNCTION_URL=${FUNCTION_URL}"
+        FUNCTION_URL=$(grep -o 'https://[a-zA-Z0-9.-]*\.cloudfunctions\.net/[a-zA-Z0-9-]*' <<< "${{ steps.deploy-function.outputs.log }}")
         echo "FUNCTION_URL=${FUNCTION_URL}" >> $GITHUB_ENV
 
     - name: Check Cloud Function URL
