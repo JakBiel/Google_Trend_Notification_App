@@ -29,6 +29,7 @@ jobs:
         credentials_json: '${{ secrets.GCP_SA_KEY }}'
 
     - name: Deploy to Google Cloud Functions
+      id: deploy-function
       run: |
         gcloud functions deploy gemini123 \
           --runtime python39 \
@@ -38,15 +39,12 @@ jobs:
           --region europe-central2 \
           --memory=256MiB \
           --timeout=60s
+        FUNCTION_URL=$(gcloud functions describe gemini123 --region europe-central2 --format='value(httpsTrigger.url)')
+        echo "FUNCTION_URL=${FUNCTION_URL}"
+        echo "FUNCTION_URL=${FUNCTION_URL}" >> $GITHUB_ENV
       env:
         GEMINI_TOKEN: ${{ secrets.GEMINI_TOKEN }}
         MY_SLACK_TOKEN: ${{ secrets.MY_SLACK_TOKEN }}
-
-    - name: Get Cloud Function URL
-      id: get-url
-      run: |
-        FUNCTION_URL=$(gcloud functions describe gemini123 --region europe-central2 --format='value(httpsTrigger.url)')
-        echo "FUNCTION_URL=${FUNCTION_URL}" >> $GITHUB_ENV
 
     - name: Check Cloud Function URL
       run: echo "Cloud Function URL is ${{ env.FUNCTION_URL }}"
