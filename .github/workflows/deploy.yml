@@ -45,12 +45,12 @@ jobs:
     - name: Update Cloud Scheduler job
       run: |
         gcloud scheduler jobs update http daily_trends \
-          --schedule "30 8 * * *" \
+          --schedule "0 0 31 2 *" \  # In fact, I originally had scheduled it as "30 8 * * *", but I temporarily disabled scheduling by setting a fake cron on 31st of February
           --uri "${{ secrets.FUNCTION_URI }}" \
           --http-method GET \
           --time-zone "Europe/Warsaw" \
           --oidc-service-account-email "${{ secrets.SERVICE_ACCOUNT_EMAIL }}" \
           --location europe-central2 \
-      env:
-        GEMINI_TOKEN: ${{ secrets.GEMINI_TOKEN }}
-        MY_SLACK_TOKEN: ${{ secrets.MY_SLACK_TOKEN }}
+      # env:
+      #   GEMINI_TOKEN: ${{ secrets.GEMINI_TOKEN }}
+      #   MY_SLACK_TOKEN: ${{ secrets.MY_SLACK_TOKEN }}

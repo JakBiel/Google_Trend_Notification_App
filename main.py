@@ -1,3 +1,4 @@
+import logging
 import os
 
 import functions_framework
@@ -5,6 +6,10 @@ import google.generativeai as genai
 from pytrends.request import TrendReq
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
+
+# Global Variables
+gemini_version = "gemini-1.5-flash"
+channel = "#jakub_channel"
 
 
 def fetch_trending_searches():
@@ -17,18 +22,18 @@ def fetch_trending_searches():
     trending_list = pytrends.trending_searches()
 
     # Calling the function and printing the results
-    print("Most popular phrases globally in the last 24 hours:")
-    print(trending_list)
+    logging.info("Most popular phrases globally in the last 24 hours:")
+    logging.info(trending_list)
 
     return trending_list
 
 
-def gemini_querying(trends):
+def gemini_querying(trends, gemini_version):
     my_api_key = os.getenv("GEMINI_TOKEN")
 
     genai.configure(api_key=my_api_key)
     # The Gemini 1.5 models are versatile and work with both text-only and multimodal prompts
-    model = genai.GenerativeModel("gemini-1.5-flash")
+    model = genai.GenerativeModel(gemini_version)
 
     response = model.generate_content(
         f"""I attached below a list of trends. Please make each trend's name started and ended with "*" sign. Please attach to a trend in each row a proper category [define it short (max 3 words)]
@@ -42,14 +47,13 @@ def gemini_querying(trends):
                                     3.  *The Boys Season 4*  -  TV :male_superhero:
                                     {trends}"""
     )
-    print(response.text)
+    logging.info(response.text)
 
     return response.text
 
 
-def send_slack_notification(message):
+def send_slack_notification(message, channel):
     token = os.getenv("MY_SLACK_TOKEN")
-    channel = "#jakub_channel"
 
     client = WebClient(token=token)
     try:
@@ -58,9 +62,9 @@ def send_slack_notification(message):
             text="This is a fallback text with *bold* text",
             blocks=[{"type": "section", "text": {"type": "mrkdwn", "text": message}}],
         )
-        print("Message sent successfully")
+        logging.info("Message sent successfully")
     except SlackApiError as e:
-        print(f"Failed to send message: {e.response['error']}")
+        logging.info(f"Failed to send message: {e.response['error']}")
 
 
 @functions_framework.http
