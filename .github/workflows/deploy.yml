@@ -59,3 +59,6 @@ jobs:
           --time-zone "Europe/Warsaw" \
           --oidc-service-account-email "${{ secrets.SERVICE_ACCOUNT_EMAIL }}" \
           --location europe-central2 \
+      env:
+        GEMINI_TOKEN: ${{ secrets.GEMINI_TOKEN }}
+        MY_SLACK_TOKEN: ${{ secrets.MY_SLACK_TOKEN }}
