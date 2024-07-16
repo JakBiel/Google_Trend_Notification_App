@@ -39,7 +39,7 @@ jobs:
           --region europe-central2 \
           --memory=256MiB \
           --timeout=60s
-        FUNCTION_URL=$(gcloud functions describe gemini123 --format='value(httpsTrigger.url)')
+        FUNCTION_URL=$(gcloud functions describe gemini123 --region europe-central2 --format='value(url)')
         echo "FUNCTION_URL=${FUNCTION_URL}"
         echo "FUNCTION_URL=${FUNCTION_URL}" >> $GITHUB_ENV
       env:
