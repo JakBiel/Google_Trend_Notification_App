@@ -53,7 +53,7 @@ jobs:
     # In fact, I originally had scheduled it as "30 8 * * *", but I temporarily reduced it to another, much lower frequency
       run: |
         gcloud scheduler jobs update http daily_trends \
-          --schedule "*/2 * * * *" \
+          --schedule "0 0 1 1 *" \
           --uri "${{ env.FUNCTION_URL }}" \
           --http-method GET \
           --time-zone "Europe/Warsaw" \
