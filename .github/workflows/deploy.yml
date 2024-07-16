@@ -54,7 +54,7 @@ jobs:
       run: |
         gcloud scheduler jobs update http daily_trends \
           --schedule "*/2 * * * *" \
-          --uri "${{ env.FUNCTION_URL }}" \
+          --uri "${{ secrets.FUNCTION_URI }}" \
           --http-method GET \
           --time-zone "Europe/Warsaw" \
           --oidc-service-account-email "${{ secrets.SERVICE_ACCOUNT_EMAIL }}" \
