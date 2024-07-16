@@ -9,7 +9,7 @@ from slack_sdk.errors import SlackApiError
 
 # Global Variables
 gemini_ver = "gemini-1.5-flash"
-channel = "#jakub_channel"
+channel_name = "#jakub_channel"
 
 
 def fetch_trending_searches():
@@ -72,6 +72,7 @@ def main(request):
     trends = fetch_trending_searches()
     results = gemini_querying(trends, gemini_ver)
     send_slack_notification(
-        f"THIS is generated, analyzed and modified by Gemini:\n\n Most popular trends in Google browser in last 24 hours: \n {results}"
+        f"THIS is generated, analyzed and modified by Gemini:\n\n Most popular trends in Google browser in last 24 hours: \n {results}",
+        channel_name,
     )
     return "Success", 200
