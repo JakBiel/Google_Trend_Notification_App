@@ -8,7 +8,7 @@ from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
 
 # Global Variables
-gemini_version = "gemini-1.5-flash"
+gemini_ver = "gemini-1.5-flash"
 channel = "#jakub_channel"
 
 
@@ -70,7 +70,7 @@ def send_slack_notification(message, channel):
 @functions_framework.http
 def main(request):
     trends = fetch_trending_searches()
-    results = gemini_querying(trends)
+    results = gemini_querying(trends, gemini_ver)
     send_slack_notification(
         f"THIS is generated, analyzed and modified by Gemini:\n\n Most popular trends in Google browser in last 24 hours: \n {results}"
     )
